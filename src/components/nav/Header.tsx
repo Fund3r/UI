@@ -10,8 +10,8 @@ import Title from '../../images/logos/app-title.svg';
 export function Header({ pathName }: { pathName: string }) {
   const { address } = useAccount();
 
-  const navLinkClass = (path?: string) =>
-    path && pathName === path ? styles.navLink + ' underline' : styles.navLink;
+  // const navLinkClass = (path?: string) =>
+  //   path && pathName === path ? styles.navLink + ' underline' : styles.navLink;
 
   return (
     <header className="px-2 sm:px-6 lg:px-64 pt-3 pb-2 w-full">
@@ -22,14 +22,14 @@ export function Header({ pathName }: { pathName: string }) {
           <Image src={Title} width={210} alt="" className="mt-0.5 ml-2 pb-px" />
         </Link>
 
-        <nav className="sm:flex sm:space-x-8 py-2 flex items-center">
+        {/* <nav className="sm:flex sm:space-x-8 py-2 flex items-center">
           <Link href="/explorer" className={navLinkClass('/explorer')}>
             Explorer
           </Link>
           <Link href="/create" className={navLinkClass('/create')}>
             Create Project
           </Link>
-        </nav>
+        </nav> */}
 
         <div className="flex flex-col items-end md:flex-row-reverse md:items-start gap-2">
           <WalletControlBar />
