@@ -33,7 +33,7 @@
       "error",
       {
         "argsIgnorePattern": "^_",
-        "varsIgnorePattern": "^_",
+        "varsIgnorePattern": "^React$|^_",
         "caughtErrorsIgnorePattern": "^_"
       }
     ],

@@ -30,6 +30,8 @@ export default function Document() {
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${APP_URL}/logo.png`} />
         <meta property="og:description" content={APP_DESCRIPTION} />
+
+        {/* <meta http-equiv='Content-Security-Policy' content='frame-src http://auth.particle.network' /> */}
       </Head>
       <body className="text-black">
         <Main />

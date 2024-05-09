@@ -1,4 +1,4 @@
-import { RainbowKitProvider, connectorsForWallets, lightTheme } from '@rainbow-me/rainbowkit';
+import { RainbowKitProvider, connectorsForWallets, darkTheme } from '@rainbow-me/rainbowkit';
 import '@rainbow-me/rainbowkit/styles.css';
 import {
   argentWallet,
@@ -24,7 +24,30 @@ import { Color } from '../../../styles/Color';
 import { getWagmiChainConfig } from '../../chains/metadata';
 import { tryGetChainMetadata } from '../../chains/utils';
 
+import { ParticleNetwork } from '@particle-network/auth';
+import { particleWallet } from '@particle-network/rainbowkit-ext';
+
 const { chains, publicClient } = configureChains(getWagmiChainConfig(), [publicProvider()]);
+
+new ParticleNetwork({
+  appId: process.env.NEXT_PUBLIC_APP_ID as string,
+  clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY as string,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
+})
+
+const popularWallets = {
+  groupName: "Popular",
+  wallets: [
+    particleWallet({ chains, authType: "google" }),
+    particleWallet({ chains, authType: "email" }),
+    particleWallet({ chains }),
+    injectedWallet({ chains }),
+    rainbowWallet({ chains, projectId: "walletconnect project id" }),
+    coinbaseWallet({ appName: "RainbowKit demo", chains }),
+    metaMaskWallet({ chains, projectId: "walletconnect project id" }),
+    walletConnectWallet({ chains, projectId: "walletconnect project id" }),
+  ],
+}
 
 const connectorConfig = {
   chains,
@@ -34,6 +57,7 @@ const connectorConfig = {
 };
 
 const connectors = connectorsForWallets([
+  popularWallets,
   {
     groupName: 'Recommended',
     wallets: [
@@ -71,7 +95,7 @@ export function EvmWalletContext({ children }: PropsWithChildren<unknown>) {
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
         chains={chains}
-        theme={lightTheme({
+        theme={darkTheme({
           accentColor: Color.primaryBlue,
           borderRadius: 'small',
           fontStack: 'system',

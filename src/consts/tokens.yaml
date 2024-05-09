@@ -22,3 +22,12 @@ tokens:
     logoURI: '/logos/weth.png'
     connections:
       - { token: ethereum|sepolia|0x767C51a91CC9dEF2F24C35c340649411D6390320 }
+  # - chainName: funder
+  #   standard: EvmHypSynthetic
+  #   decimals: 18
+  #   symbol: USDC
+  #   name: Ether
+  #   addressOrDenom: '0xDB2C9ffb676aBc5E9b4AfC7226a07E24f924C334'
+  #   logoURI: '/logos/weth.png'
+  #   connections:
+  #     - { token: ethereum|raspberry|0xC1D3E34AbF1b6646691Bd367D2CD67Dd670f1397 }
