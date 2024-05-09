@@ -1,12 +1,13 @@
 import { Head, Html, Main, NextScript } from 'next/document';
-
 import { APP_BRAND_COLOR, APP_DESCRIPTION, APP_NAME, APP_URL } from '../consts/app';
+
 
 export default function Document() {
   return (
     <Html>
       <Head>
         <meta charSet="utf-8" />
+        <meta http-equiv="Content-Security-Policy" content="frame-src * data:; img-src * data:;"></meta>
 
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -30,8 +31,6 @@ export default function Document() {
         <meta property="og:type" content="website" />
         <meta property="og:image" content={`${APP_URL}/logo.png`} />
         <meta property="og:description" content={APP_DESCRIPTION} />
-
-        {/* <meta http-equiv='Content-Security-Policy' content='frame-src http://auth.particle.network' /> */}
       </Head>
       <body className="text-black">
         <Main />

@@ -18,3 +18,54 @@
 #   protocol: ethereum
 #   rpcUrls:
 #     - http: http://127.0.0.1:8555
+bubs:
+  name: bubs
+  chainId: 2125031
+  domainId: 2125031
+  protocol: ethereum
+  rpcUrls:
+    - http: https://bubs-sepolia.rpc.caldera.xyz/http
+  blockExplorers:
+    - name: Bubs Sepolia explorer
+      url: https://bubs-sepolia.explorer.caldera.xyz
+      apiUrl: https://bubs-sepolia.explorer.caldera.xyz/api/v2
+  nativeToken:
+    name: Eth
+    symbol: ETH
+    decimals: 18
+  displayName: Bubs Sepolia Testnet
+  displayNameShort: Bubs
+fundm3conduit:
+  name: fundm3conduit
+  chainId: 72688
+  domainId: 72688
+  protocol: ethereum
+  rpcUrls:
+    - http: https://rpc-fundm3-fg4mmm9c3q.t.conduit.xyz
+  blockExplorers:
+    - name: FundM3 Conduit explorer
+      url: https://explorerl2new-fundm3-fg4mmm9c3q.t.conduit.xyz
+      apiUrl: https://explorer-fundm3-fg4mmm9c3q.t.conduit.xyz/api/v2
+  nativeToken:
+    name: Eth
+    symbol: ETH
+    decimals: 18
+  displayName: FundM3 Conduit Testnet
+  displayNameShort: FundM3
+raspberry:
+  name: raspberry
+  chainId: 123420111
+  domainId: 123420111
+  protocol: ethereum
+  rpcUrls:
+    - http: https://rpc.opcelestia-raspberry.gelato.digital
+  blockExplorers:
+    - name: OP Celestia Raspberry explorer
+      url: https://opcelestia-raspberry.gelatoscout.com
+      apiUrl: https://opcelestia-raspberry.gelatoscout.com/api/v2
+  nativeToken:
+    name: Eth
+    symbol: ETH
+    decimals: 18
+  displayName: OP Celestia Raspberry Testnet
+  displayNameShort: Raspberry

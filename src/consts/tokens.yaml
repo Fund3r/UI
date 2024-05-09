@@ -2,32 +2,52 @@
 # Configs can be defined here, in tokens.json, or in tokens.ts
 # The input here is typically the output of the Hyperlane CLI warp deploy command
 ---
+# tokens:
+#   # Eth Mainnet HypNative token
+#   - chainName: sepolia
+#     standard: EvmHypNative
+#     decimals: 18
+#     symbol: ETH
+#     name: Ether
+#     addressOrDenom: '0x767C51a91CC9dEF2F24C35c340649411D6390320'
+#     logoURI: '/logos/weth.png'
+#     connections:
+#       - { token: ethereum|alfajores|0x8bF6Ca2Dca1DF703Cb9144cef6A4d86abA7776C4 }
+#   - chainName: alfajores
+#     standard: EvmHypSynthetic
+#     decimals: 18
+#     symbol: ETH
+#     name: Ether
+#     addressOrDenom: '0x8bF6Ca2Dca1DF703Cb9144cef6A4d86abA7776C4'
+#     logoURI: '/logos/weth.png'
+#     connections:
+#       - { token: ethereum|sepolia|0x767C51a91CC9dEF2F24C35c340649411D6390320 }
 tokens:
-  # Eth Mainnet HypNative token
-  - chainName: sepolia
-    standard: EvmHypNative
+  - chainName: raspberry
+    standard: EvmHypCollateral
+    name: USD Coin
+    symbol: USDC
     decimals: 18
-    symbol: ETH
-    name: Ether
-    addressOrDenom: '0x767C51a91CC9dEF2F24C35c340649411D6390320'
-    logoURI: '/logos/weth.png'
+    addressOrDenom: "0x249cE44C31090DE8946D343075F58EBD1799EF22"
+    collateralAddressOrDenom: "0xc62369CbFA377ceD109cC587C7E1ae558855Ac01"
     connections:
-      - { token: ethereum|alfajores|0x8bF6Ca2Dca1DF703Cb9144cef6A4d86abA7776C4 }
-  - chainName: alfajores
+      - token: ethereum|bubs|0x1345d63314bD37DB29dfBCe9e6e0c1489EAB4aC3
+      - token: ethereum|fundm3conduit|0xF42DD10Ea10dEb6dd9F79b26CFE7F408699B2224
+  - chainName: bubs
     standard: EvmHypSynthetic
+    name: USD Coin
+    symbol: USDC
     decimals: 18
-    symbol: ETH
-    name: Ether
-    addressOrDenom: '0x8bF6Ca2Dca1DF703Cb9144cef6A4d86abA7776C4'
-    logoURI: '/logos/weth.png'
+    addressOrDenom: "0x1345d63314bD37DB29dfBCe9e6e0c1489EAB4aC3"
     connections:
-      - { token: ethereum|sepolia|0x767C51a91CC9dEF2F24C35c340649411D6390320 }
-  # - chainName: funder
-  #   standard: EvmHypSynthetic
-  #   decimals: 18
-  #   symbol: USDC
-  #   name: Ether
-  #   addressOrDenom: '0xDB2C9ffb676aBc5E9b4AfC7226a07E24f924C334'
-  #   logoURI: '/logos/weth.png'
-  #   connections:
-  #     - { token: ethereum|raspberry|0xC1D3E34AbF1b6646691Bd367D2CD67Dd670f1397 }
+      - token: ethereum|raspberry|0x249cE44C31090DE8946D343075F58EBD1799EF22
+      - token: ethereum|fundm3conduit|0xF42DD10Ea10dEb6dd9F79b26CFE7F408699B2224
+  - chainName: fundm3conduit
+    standard: EvmHypSynthetic
+    name: USD Coin
+    symbol: USDC
+    decimals: 18
+    addressOrDenom: "0xF42DD10Ea10dEb6dd9F79b26CFE7F408699B2224"
+    connections:
+      - token: ethereum|raspberry|0x249cE44C31090DE8946D343075F58EBD1799EF22
+      - token: ethereum|bubs|0x1345d63314bD37DB29dfBCe9e6e0c1489EAB4aC3
