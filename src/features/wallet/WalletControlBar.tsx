@@ -35,7 +35,7 @@ export function WalletControlBar() {
             onClick={() => setShowEnvSelectModal(true)}
             title="Choose wallet"
             icon={<Image src={Wallet} alt="" width={16} height={16} />}
-            color="white"
+            color="black"
           >
             <div className="ml-1.5 text-xs sm:text-sm">Connect Wallet</div>
           </SolidButton>
