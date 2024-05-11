@@ -24,23 +24,23 @@ import { Color } from '../../../styles/Color';
 import { getWagmiChainConfig } from '../../chains/metadata';
 import { tryGetChainMetadata } from '../../chains/utils';
 
-import { ParticleNetwork } from '@particle-network/auth';
-import { particleWallet } from '@particle-network/rainbowkit-ext';
+// import { ParticleNetwork } from '@particle-network/auth';
+// import { particleWallet } from '@particle-network/rainbowkit-ext';
 
 const { chains, publicClient } = configureChains(getWagmiChainConfig(), [publicProvider()]);
 
-new ParticleNetwork({
-  appId: process.env.NEXT_PUBLIC_APP_ID as string,
-  clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY as string,
-  projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
-})
+// new ParticleNetwork({
+//   appId: process.env.NEXT_PUBLIC_APP_ID as string,
+//   clientKey: process.env.NEXT_PUBLIC_CLIENT_KEY as string,
+//   projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
+// })
 
 const popularWallets = {
   groupName: "Popular",
   wallets: [
-    particleWallet({ chains, authType: "google" }),
-    particleWallet({ chains, authType: "email" }),
-    particleWallet({ chains }),
+    // particleWallet({ chains, authType: "google" }),
+    // particleWallet({ chains, authType: "email" }),
+    // particleWallet({ chains }),
     injectedWallet({ chains }),
     rainbowWallet({ chains, projectId: "walletconnect project id" }),
     coinbaseWallet({ appName: "RainbowKit demo", chains }),
