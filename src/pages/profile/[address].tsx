@@ -16,22 +16,6 @@ import {
 } from '@chakra-ui/react';
 import { useAccount } from 'wagmi';
 
-// function connectionStatus() {
-//   const chain = useChain();
-//   const status = useConnectionStatus();
-
-//   if (status === "unknown") return <p> Loading... </p>;
-//   if (status === "disconnected") return <p> disconnected </p>;
-//   if (status === "connecting") return <p> connecting... </p>;
- 
-//   if (chain) {
-//     return <p> Connected to {chain.name} </p>;
-//   }
- 
-//   return <p> Connected to an unsupported network </p>;
-// }
-
-
 export default function ProfilePage() {
   const { address } = useAccount();
 
