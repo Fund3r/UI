@@ -18,3 +18,18 @@ export const login = async (email: string, password: string) => {
     }
   }
 }
+
+// GET Project List
+export const getProjectList = async () => {
+  try {
+    const response = await api.get('/login');
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw new Error(error.response?.data.message || 'Login failed. Please try again.');
+    } else {
+      throw new Error('An unexpected error occurred. Please try again.');
+    }
+  }
+}
+
