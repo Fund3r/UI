@@ -29,6 +29,7 @@ export function WalletControlBar() {
   return (
     <div className="relative">
       <div className="relative">
+        {/* Before Login */}
         {numReady === 0 && (
           <SolidButton
             classes="py-2 px-3"
@@ -41,6 +42,7 @@ export function WalletControlBar() {
           </SolidButton>
         )}
 
+        {/* After Login */}
         {numReady === 1 && (
           <SolidButton onClick={() => setIsSideBarOpen(true)} classes="px-2.5 py-1" color="white">
             <div className="flex items-center justify-center">
@@ -58,7 +60,7 @@ export function WalletControlBar() {
             </div>
           </SolidButton>
         )}
-
+        
         {numReady > 1 && (
           <SolidButton onClick={() => setIsSideBarOpen(true)} classes="px-2.5 py-1" color="white">
             <div className="flex items-center justify-center">

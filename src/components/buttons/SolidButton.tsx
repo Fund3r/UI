@@ -55,9 +55,9 @@ export function SolidButton(
     onHover = 'hover:bg-gray-200';
     onActive = 'active:bg-gray-300';
   } else if (color === 'black') {
-    baseColors = 'bg-neutral-800 text-white';
-    onHover = 'hover:bg-gray-200';
-    onActive = 'active:bg-gray-300';
+    baseColors = 'bg-swarm text-white border-white'; // TBD
+    onHover = 'hover:bg-gray-200'; // TBD
+    onActive = 'active:bg-gray-300'; // TBD
   }
   const onDisabled = 'disabled:bg-gray-300 disabled:text-gray-500';
   const weight = bold ? 'font-semibold' : '';
