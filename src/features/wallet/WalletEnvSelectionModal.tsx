@@ -1,40 +1,68 @@
-import { PropsWithChildren } from 'react';
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text
+} from '@chakra-ui/react';
+import { PropsWithChildren, useState } from 'react';
 
 import { chainMetadata } from '@hyperlane-xyz/sdk';
 import { ProtocolType } from '@hyperlane-xyz/utils';
 import { ChainLogo } from '@hyperlane-xyz/widgets';
 
 import { Modal as Modals } from '../../components/layout/Modal';
-
+import { login } from '../../pages/api';
 import { useConnectFns } from './hooks/multiProtocol';
 
 export function WalletEnvSelectionModal({ isOpen, close }: { isOpen: boolean; close: () => void }) {
   const connectFns = useConnectFns();
-  '0x12BfA5a2B2566e89bF4E32d3B5516c1E010d30f4'
+  const [isEmailModalOpen, setEmailModalOpen] = useState(false);
+
   const onClickEnv = (env: ProtocolType) => () => {
     close();
     const connectFn = connectFns[env];
     if (connectFn) connectFn();
   };
 
+  const handleEmailModalOpen = () => {
+    setEmailModalOpen(true);
+    close();
+  };
+
+  const handleEmailModalClose = () => {
+    setEmailModalOpen(false);
+  };
+
   return (
-    <Modals title="Select Login Method" isOpen={isOpen} close={close} width="max-w-sm">
-      <div className="pt-4 pb-2 flex flex-col space-y-2.5">
-        <EnvButton
-          onClick={onClickEnv(ProtocolType.Ethereum)}
-          subTitle="an EVM"
-          logoChainId={chainMetadata.ethereum.chainId}
-        >
-          Ethereum
-        </EnvButton>
-        <SocialButton
-          // onClick={SocialOnclick()}
-          subTitle="Please login with email"
-        >
-          I dont have a wallet
-        </SocialButton>
-      </div>
-    </Modals>
+    <>
+      <Modals title="Select Login Method" isOpen={isOpen} close={close} width="max-w-sm">
+        <div className="pt-4 pb-2 flex flex-col space-y-2.5">
+          <EnvButton
+            onClick={onClickEnv(ProtocolType.Ethereum)}
+            subTitle="an EVM"
+            logoChainId={chainMetadata.ethereum.chainId}
+          >
+            Ethereum
+          </EnvButton>
+          <SocialButton
+            onClick={handleEmailModalOpen}
+            subTitle="Please login with email"
+          >
+            I dont have a wallet
+          </SocialButton>
+        </div>
+      </Modals>
+
+      <EmailLoginModal isOpen={isEmailModalOpen} close={handleEmailModalClose} />
+    </>
   );
 }
 
@@ -80,35 +108,51 @@ function SocialButton({
       onClick={onClick}
       className="w-full py-3.5 space-y-2.5 flex flex-col items-center rounded-lg border border-gray-200 hover:bg-gray-100 hover:border-gray-200 active:bg-gray-200 transition-all"
     >
-      {/* {logo} */}
       <div className="uppercase text-gray-800 tracking-wide">{children}</div>
       <div className="text-sm text-gray-500">{`${subTitle}`}</div>
     </button>
   );
 }
 
-// function SocialOnclick() {
-//   const { isOpen, onOpen, onClose } = useDisclosure();
-//   return (
-//     <>
-//       {/* <Button onClick={onOpen}>Open Modal</Button> */}
-//       <Modal isOpen={isOpen} onClose={onClose}>
-//         <ModalOverlay />
-//         <ModalContent>
-//           <ModalHeader>Modal Title</ModalHeader>
-//           <ModalCloseButton />
-//           <ModalBody>
-//             {/* <Lorem count={2} /> */}
-//           </ModalBody>
+function EmailLoginModal({ isOpen, close }: { isOpen: boolean; close: () => void }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-//           <ModalFooter>
-//             <Button colorScheme='blue' mr={3} onClick={onClose}>
-//               Close
-//             </Button>
-//             <Button variant='ghost'>Secondary Action</Button>
-//           </ModalFooter>
-//         </ModalContent>
-//       </Modal>
-//     </>
-//   )
-// }
+  const handleSubmit = async () => {
+    try {
+      setError('');
+      const response = await login(email, password);
+      console.log('Login successful:', response);
+      close();
+    } catch (err) {
+      setError('Error');
+    }
+  };
+
+  return (
+    <Modal isOpen={isOpen} onClose={close}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Sign-in</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          {error && <Text color="red.500">{error}</Text>}
+          <FormControl id="email" mb={4}>
+            <FormLabel>Email</FormLabel>
+            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          </FormControl>
+          <FormControl id="password">
+            <FormLabel>Password</FormLabel>
+            <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          </FormControl>
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            Submit
+          </Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+}

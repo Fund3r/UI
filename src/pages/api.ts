@@ -16,7 +16,7 @@ const api = axios.create({
 */
 export const login = async (email: string, password: string) => {
   try {
-    const response = await api.post('/login', { email, password });
+    const response = await api.post('/login/', { email, password });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
