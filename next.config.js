@@ -105,7 +105,7 @@ const nextConfig = {
     NEXT_PUBLIC_VERSION: version,
   },
 
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
 
   sentry: {

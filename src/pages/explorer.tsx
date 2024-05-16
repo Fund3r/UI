@@ -18,8 +18,6 @@ const ExplorerPage: NextPage = () => {
   const [projectList, setProjectList] = useState([]);
   const [error, setError] = useState('');
 
-  // console.log(process.env.NEXT_PUBLIC_BASE_URL)
-
   useEffect(() => {
     const loadProjectList = async () => {
       try {
