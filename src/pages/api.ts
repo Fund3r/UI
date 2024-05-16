@@ -35,7 +35,7 @@ export const login = async (email: string, password: string) => {
  * Projects Related API
  * 
 */
-export const createProject = async (projectData: {
+export const createProject = async (formData: {
   project_name: string;
   tag_line: string;
   description: string;
@@ -52,7 +52,7 @@ export const createProject = async (projectData: {
   };
 }) => {
   try {
-    const response = await api.post('/project/create/', projectData, {
+    const response = await api.post('/project/create/', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

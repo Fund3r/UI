@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { fetchProfileList, fetchProjectList } from './api';
 
 type Project = {
-  id: number; // 確保有id屬性
+  id: number;
   project_name: string;
   tag_line: string;
   logo_img: string;
@@ -36,24 +36,25 @@ const ExplorerPage: NextPage = () => {
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('projects');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        if (activeTab === 'projects') {
-          const { data } = await fetchProjectList();
-          setProjects(data);
-        } else if (activeTab === 'users') {
-          const { data } = await fetchProfileList();
-          setUsers(data);
-        }
-      } catch (error) {
-        setError('Failed to fetch data');
-        console.error(error);
-      } finally {
-        setLoading(false);
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      if (activeTab === 'projects') {
+        const { data } = await fetchProjectList();
+        setProjects(data);
+      } else if (activeTab === 'users') {
+        const { data } = await fetchProfileList();
+        setUsers(data);
       }
-    };
+    } catch (error) {
+      setError('Failed to fetch data');
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [activeTab]);
 
