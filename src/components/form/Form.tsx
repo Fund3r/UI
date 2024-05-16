@@ -20,13 +20,25 @@ import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 function CreateProjectForm() {
-  const { handleSubmit, register, control, setValue, getValues, watch, formState: { errors } } = useForm();
+  // const { handleSubmit, register, control, setValue, getValues, watch, formState: { errors } } = useForm();
+  const { handleSubmit, register, control, setValue, formState: { errors } } = useForm();
   const toast = useToast();
   const [logo, setLogo] = useState('');
   const [projectImages, setProjectImages] = useState<string[]>([]);
 
   
-  const onSubmit = (data) => {
+  // const onSubmit = (data) => {
+  //   toast({
+  //     title: "Project Created",
+  //     description: "Your project has been successfully created!",
+  //     status: "success",
+  //     duration: 9000,
+  //     isClosable: true,
+  //   });
+  //   console.log(data);
+  // };
+
+  const onSubmit = () => {
     toast({
       title: "Project Created",
       description: "Your project has been successfully created!",
@@ -34,7 +46,6 @@ function CreateProjectForm() {
       duration: 9000,
       isClosable: true,
     });
-    console.log(data);
   };
 
   const handleImageUpload = (field) => (e) => {
