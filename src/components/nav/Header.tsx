@@ -12,7 +12,9 @@ export function Header() {
   return (
     <header className="px-2 sm:px-6 lg:px-64 pt-3 pb-2 w-full bg-swamp">
       <div className="flex justify-between items-center">
-        <Image src={logo} width={144} alt="" />
+        <Link href="/" className="py-2 flex items-center">
+          <Image src={logo} width={144} alt="" />
+        </Link>
 
         <div className="flex flex-col items-end md:flex-row-reverse md:items-start gap-2">
           <WalletControlBar />

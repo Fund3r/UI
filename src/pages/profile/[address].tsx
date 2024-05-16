@@ -33,7 +33,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const loadProfile = async () => {
-      if (address) { // 確保 address 不為 undefined
+      if (address) {
         try {
           const data = await fetchProfileDetails(address);
           setName(data.name);
@@ -89,18 +89,18 @@ export default function ProfilePage() {
   };
 
   const handleUpdate = async () => {
-    const profileData = {
+    const formData = {
       name,
       email,
-      address: address || '', // 確保 address 不為 undefined
+      address: address || '',
       profile_img: avatar,
-      project_img: [], // 默認空數組
+      project_img: [],
       visible: true,
       link: socialLinks
     };
 
     try {
-      await updateProfile(profileData);
+      await updateProfile(formData);
       toast({
         title: "Profile updated",
         description: "Your profile has been successfully updated.",
@@ -160,7 +160,7 @@ export default function ProfilePage() {
                 </Avatar>
               </Center>
               <Center w="full">
-                <Button w="full" as={'label'} htmlFor="file-input">Change Icon</Button>
+                <Button w="full" as={'label'} htmlFor="file-input">Change Profile Picture</Button>
                 <Input id="file-input" type={'file'} hidden accept="image/*" onChange={handleAvatarChange} />
               </Center>
             </Stack>
