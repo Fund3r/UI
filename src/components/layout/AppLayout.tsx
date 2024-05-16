@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { PropsWithChildren } from 'react';
 
 import { APP_NAME } from '../../consts/app';
+import Footer from "../nav/Footer";
 import { Header } from '../nav/Header';
 
 export function AppLayout({ children }: PropsWithChildren) {
@@ -21,6 +22,7 @@ export function AppLayout({ children }: PropsWithChildren) {
         <div className="sm:px-4 mx-auto grow flex items-center max-w-screen-xl">
           <main className="w-full flex-1 my-4 flex items-center justify-center">{children}</main>
         </div>
+        <Footer />
       </div>
     </>
   );

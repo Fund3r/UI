@@ -1,82 +1,69 @@
+import { Box, Flex, HStack, Icon, Link, Text } from "@chakra-ui/react";
 import Image from 'next/image';
-import Link from 'next/link';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaYoutube } from "react-icons/fa";
+import logo from '../../images/logos/logo.svg';
 
-import { links } from '../../consts/links';
-import FooterBg from '../../images/backgrounds/footer-bg.svg';
-import { Color } from '../../styles/Color';
-import { Discord } from '../icons/Discord';
-import { Github } from '../icons/Github';
-import { HyperlaneLogo } from '../icons/HyperlaneLogo';
-import { Medium } from '../icons/Medium';
-import { Twitter } from '../icons/Twitter';
-
-const footerLinks1 = [
-  { title: 'Docs', url: links.docs, external: true },
-  { title: 'Homepage', url: links.home, external: true },
-  { title: 'Explorer', url: links.explorer, external: true },
-  { title: 'Chains', url: links.chains, external: true },
-];
-
-const footerLinks3 = [
-  { title: 'Twitter', url: links.twitter, external: true, icon: <Twitter fill="#fff" /> },
-  { title: 'Discord', url: links.discord, external: true, icon: <Discord fill="#fff" /> },
-  { title: 'Github', url: links.github, external: true, icon: <Github fill="#fff" /> },
-  { title: 'Blog', url: links.blog, external: true, icon: <Medium fill="#fff" /> },
-];
-
-export function Footer() {
+const Footer = () => {
   return (
-    <footer className="text-white relative">
-      <div className="relative w-full">
-        <Image className="z-0 w-full" src={FooterBg} alt="" />
-      </div>
-      <div className="relative z-10 px-8 pb-5 pt-2 sm:pt-0 bg-pink-500">
-        <div className="flex flex-col sm:flex-row gap-8 sm:gap-10 items-center justify-between">
-          <div className="flex items-center justify-center">
-            <div className="ml-2 w-12 sm:w-16 h-12 sm:h-16">
-              <HyperlaneLogo fill={Color.primaryWhite} />
-            </div>
-            <div className="text-lg sm:text-xl font-medium ml-6 space-y-1 ">
-              <div>Go Interchain</div>
-              <div>With Hyperlane</div>
-            </div>
-          </div>
-          <nav className="flex text-md font-medium">
-            <ul className={`${styles.linkCol} mr-14`}>
-              {footerLinks1.map((item) => (
-                <li className="" key={item.title}>
-                  <Link
-                    className={styles.linkItem}
-                    target={item.external ? '_blank' : '_self'}
-                    href={item.url}
-                  >
-                    <div className="">{item.title}</div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <ul className={`${styles.linkCol}`}>
-              {footerLinks3.map((item) => (
-                <li key={item.title}>
-                  <Link
-                    className={styles.linkItem}
-                    target={item.external ? '_blank' : '_self'}
-                    href={item.url}
-                  >
-                    {item?.icon && <div className="mr-4 w-6">{item?.icon}</div>}
-                    <div className="">{item.title}</div>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </div>
-      </div>
-    </footer>
+    <Box bg="gray.900" color="gray.200" py={10}>
+      <Flex direction="column" align="center" justify="center" maxW="1200px" mx="auto" px={4}>
+        <Text fontSize="2xl" fontWeight="bold" mb={4} color="yellow.400">
+          <Image src={logo} width={144} alt="" />
+        </Text>
+        <HStack spacing={10} mb={6}>
+          <Link href="#" _hover={{ textDecoration: "none", color: "yellow.400" }}>
+            About Us
+          </Link>
+          <span className="text-white mx-[24px]">|</span>
+          <Link href="#" _hover={{ textDecoration: "none", color: "yellow.400" }}>
+            Explore Projects
+          </Link>
+          <span className="text-white mx-[24px]">|</span>
+          <Link href="#" _hover={{ textDecoration: "none", color: "yellow.400" }}>
+            Explore Developers
+          </Link>
+          <span className="text-white mx-[24px]">|</span>
+          <Link href="#" _hover={{ textDecoration: "none", color: "yellow.400" }}>
+            My Profile
+          </Link>
+        </HStack>
+        <HStack spacing={4} mb={6}>
+          <Link href="#" _hover={{ textDecoration: "none", color: "yellow.400" }}>
+            My Account
+          </Link>
+          <Link href="#" _hover={{ textDecoration: "none", color: "yellow.400" }}>
+            Return & Refund
+          </Link>
+          <Link href="#" _hover={{ textDecoration: "none", color: "yellow.400" }}>
+            Security & Privacy
+          </Link>
+          <Link href="#" _hover={{ textDecoration: "none", color: "yellow.400" }}>
+            Terms & Conditionals
+          </Link>
+        </HStack>
+        <HStack spacing={6} mb={4}>
+          <Link href="#" _hover={{ color: "yellow.400" }}>
+            <Icon as={FaFacebook} boxSize={5} />
+          </Link>
+          <Link href="#" _hover={{ color: "yellow.400" }}>
+            <Icon as={FaInstagram} boxSize={5} />
+          </Link>
+          <Link href="#" _hover={{ color: "yellow.400" }}>
+            <Icon as={FaTwitter} boxSize={5} />
+          </Link>
+          <Link href="#" _hover={{ color: "yellow.400" }}>
+            <Icon as={FaLinkedin} boxSize={5} />
+          </Link>
+          <Link href="#" _hover={{ color: "yellow.400" }}>
+            <Icon as={FaYoutube} boxSize={5} />
+          </Link>
+        </HStack>
+        <Text fontSize="sm" color="gray.500">
+          © 2024 AR3NA. All Rights Reserved
+        </Text>
+      </Flex>
+    </Box>
   );
-}
-
-const styles = {
-  linkCol: 'flex flex-col gap-1.5',
-  linkItem: 'flex items-center capitalize text-decoration-none hover:underline underline-offset-2',
 };
+
+export default Footer;
