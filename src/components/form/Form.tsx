@@ -18,42 +18,53 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { createProject } from '../../pages/api';
 
-function CreateProjectForm() {
-  // const { handleSubmit, register, control, setValue, getValues, watch, formState: { errors } } = useForm();
+function Form() {
   const { handleSubmit, register, control, setValue, formState: { errors } } = useForm();
   const toast = useToast();
   const [logo, setLogo] = useState('');
   const [projectImages, setProjectImages] = useState<string[]>([]);
 
-  
-  // const onSubmit = (data) => {
-  //   toast({
-  //     title: "Project Created",
-  //     description: "Your project has been successfully created!",
-  //     status: "success",
-  //     duration: 9000,
-  //     isClosable: true,
-  //   });
-  //   console.log(data);
-  // };
-
-  const onSubmit = () => {
-    toast({
-      title: "Project Created",
-      description: "Your project has been successfully created!",
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
+  const onSubmit = async (data: any) => {
+    try {
+      const formData = {
+        ...data,
+        logo_img: logo,
+        project_img: projectImages,
+        link: {
+          x: data.socialLinks.x,
+          github: data.socialLinks.github,
+          telegram: data.socialLinks.telegram,
+          website: data.socialLinks.website,
+          discord: data.socialLinks.discord,
+        }
+      };
+      await createProject(formData);
+      toast({
+        title: "Project Created",
+        description: "Your project has been successfully created!",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: (error as Error).message,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
-  const handleImageUpload = (field) => (e) => {
-    const file = e.target.files[0];
+  const handleImageUpload = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        if (reader.result) { // 确保 reader.result 不为 null
+        if (reader.result) {
           const result = reader.result.toString();
           if (field === 'logo') {
             setLogo(result);
@@ -71,7 +82,7 @@ function CreateProjectForm() {
     }
   };
 
-  const removeImage = (index) => {
+  const removeImage = (index: number) => {
     const newImages = projectImages.filter((_, i) => i !== index);
     setProjectImages(newImages);
     setValue('projectImages', newImages);
@@ -154,6 +165,8 @@ function CreateProjectForm() {
               <Input type="text" placeholder="X link" {...register("socialLinks.x")} />
               <Input type="text" placeholder="GitHub link" {...register("socialLinks.github")} />
               <Input type="text" placeholder="Website" {...register("socialLinks.website")} />
+              <Input type="text" placeholder="Discord link" {...register("socialLinks.discord")} />
+              <Input type="text" placeholder="Telegram link" {...register("socialLinks.telegram")} />
             </Stack>
           </FormControl>
           <Button type="submit" colorScheme="blue" size="lg">Create Project</Button>
@@ -163,4 +176,4 @@ function CreateProjectForm() {
   );
 }
 
-export default CreateProjectForm;
+export default Form;

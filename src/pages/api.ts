@@ -52,7 +52,11 @@ export const createProject = async (projectData: {
   };
 }) => {
   try {
-    const response = await api.post('/project/create', projectData);
+    const response = await api.post('/project/create/', projectData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -116,7 +120,7 @@ export const updateProfile = async (profileData: {
   };
 }) => {
   try {
-    const response = await api.post('/profile/update', profileData);
+    const response = await api.post('/profile/update/', profileData);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
