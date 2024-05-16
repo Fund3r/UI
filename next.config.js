@@ -45,6 +45,23 @@ const securityHeaders = [
     key: 'Referrer-Policy',
     value: 'strict-origin-when-cross-origin',
   },
+  {
+    key: 'Access-Control-Allow-Credentials',
+    value: 'true',
+  },
+  {
+    key: 'Access-Control-Allow-Origin',
+    value: '*', // http://localhost:3000 or 0.0.0.0:3000
+  },
+  {
+    key: 'Access-Control-Allow-Methods',
+    value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+  },
+  {
+    key: 'Access-Control-Allow-Headers',
+    value: 'X-CSRF-Token, X-Requested-With, X-Hub-Signature, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+  },
+
   // Note, causes a problem for firefox: https://github.com/MetaMask/metamask-extension/issues/3133
   ...(ENABLE_CSP_HEADER
     ? [
@@ -94,6 +111,15 @@ const nextConfig = {
   sentry: {
     hideSourceMaps: true,
     tunnelRoute: "/monitoring-tunnel",
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://34.82.234.85:8000/api/:path*', // Backend API URL
+      },
+    ];
   },
 }
 

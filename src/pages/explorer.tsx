@@ -10,13 +10,52 @@ import {
   Text
 } from '@chakra-ui/react';
 import type { NextPage } from 'next';
+import { useEffect, useState } from 'react';
 import utilStyles from '../styles/utils.module.css';
+import { fetchProjectList } from './api';
 
 const ExplorerPage: NextPage = () => {
+  const [projectList, setProjectList] = useState([]);
+  const [error, setError] = useState('');
+
+  // console.log(process.env.NEXT_PUBLIC_BASE_URL)
+
+  useEffect(() => {
+    const loadProjectList = async () => {
+      try {
+        const data = await fetchProjectList();
+        setProjectList(data.data);
+      } catch (error) {
+        // setError(error.message);
+        setError('Error');
+      }
+    };
+
+    loadProjectList();
+  }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!projectList.length) {
+    return <div>Loading projects...</div>;
+  }
+
   return (
     <Container maxW={"1200px"} m={"auto"} py={"10px"} px={"40px"}>
         <Heading>Explore Projects</Heading>
         {/* <Text>Browse and contribute projects</Text> */}
+        {/* <ul>
+          {projectList.map((project, index) => (
+            <li key={index}>
+              <img src={`data:image/png;base64,${project.logo_img}`} alt={project.project_name} style={{ width: 50, height: 50 }} />
+              <h2>{project.project_name}</h2>
+              <p>{project.tag_line}</p>
+              <p>Owner: {project.owner_name}</p>
+            </li>
+          ))}
+        </ul> */}
         <Flex display='flex' gap='25' marginTop='50'>
             <Button
                 marginRight='5'
