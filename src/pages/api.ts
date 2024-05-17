@@ -40,16 +40,14 @@ export const createProject = async (formData: {
   tag_line: string;
   description: string;
   logo_img: string;
-  project_img: string[];
+  project_images: string[];
   email: string;
-  owner: string;
-  link: {
-    x: string;
-    github: string;
-    telegram: string;
-    website: string;
-    discord: string;
-  };
+  address: string;
+  x_url: string;
+  githubv: string;
+  telegram_url: string;
+  website_url: string;
+  discord_url: string;
 }) => {
   try {
     const response = await api.post('/project/create/', formData, {
@@ -111,16 +109,18 @@ export const updateProfile = async (profileData: {
   name: string;
   email: string;
   address: string;
-  project_img: string[];
+  profile_img: string;
   visible: boolean;
-  link: {
-    x: string;
-    github: string;
-    telegram: string;
-  };
+  x_url: string;
+  github_url: string;
+  telegram_url: string;
 }) => {
   try {
-    const response = await api.post('/profile/update/', profileData);
+    const response = await api.post('/profile/update/', profileData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

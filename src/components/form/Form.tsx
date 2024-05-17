@@ -35,7 +35,7 @@ function Form() {
         formData.append('logo_img', logo);
       }
       projectImages.forEach((image, index) => {
-        formData.append(`project_img`, image);
+        formData.append(`project_images`, image);
       });
       formData.append('email', data.email);
       formData.append('address', data.address);
