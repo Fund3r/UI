@@ -22,8 +22,9 @@ import { createProject } from '../../pages/api';
 function Form() {
   const { handleSubmit, register, setValue, formState: { errors } } = useForm();
   const toast = useToast();
-  const [logo, setLogo] = useState<File | null>(null);
-  const [projectImages, setProjectImages] = useState<File[]>([]);
+  const [logo, setLogo] = useState({ file: null, preview: '' });
+  const [projectImages, setProjectImages] = useState([]);
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
   const onSubmit = async (data: any) => {
     try {
@@ -31,11 +32,11 @@ function Form() {
       formData.append('project_name', data.project_name);
       formData.append('tag_line', data.tag_line);
       formData.append('description', data.description);
-      if (logo) {
-        formData.append('logo_img', logo);
+      if (logo.file) {
+        formData.append('logo_img', logo.file);
       }
-      projectImages.forEach((image, index) => {
-        formData.append(`project_images`, image);
+      projectImages.forEach(({ file }, index) => {
+        formData.append('project_images', file);
       });
       formData.append('email', data.email);
       formData.append('address', data.address);
@@ -64,33 +65,33 @@ function Form() {
     }
   };
 
-  const MAX_FILE_SIZE = 5 * 1024 * 1024;
-
   const handleImageUpload = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
-    if (file) {
-      if (file.size > MAX_FILE_SIZE) {
-        toast({
-          title: "File too large",
-          description: `File size should not exceed ${MAX_FILE_SIZE / (1024 * 1024)} MB.`,
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-        return;
-      }
+    const files = e.target.files;
+    if (!files) return;
 
-      if (field === 'logo') {
-        setLogo(file);
-        setValue('logo', file);
-      } else {
-        const newImages = [...projectImages, file];
-        if (newImages.length <= 3) {
-          setProjectImages(newImages);
-          setValue('projectImages', newImages);
+    Array.from(files).forEach(file => {
+        if (file.type.startsWith('image') && file.size <= MAX_FILE_SIZE) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                if (reader.result) {
+                    if (field === 'logo') {
+                        setLogo({ file: file, preview: reader.result.toString() });
+                    } else {
+                        setProjectImages(prevImages => [...prevImages, { file: file, preview: reader.result.toString() }]);
+                    }
+                }
+            };
+            reader.readAsDataURL(file);
+        } else {
+            toast({
+                title: "Invalid file type or size",
+                description: "Please select a valid image file under the size limit.",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+            });
         }
-      }
-    }
+    });
   };
 
   const removeImage = (index: number) => {
@@ -126,7 +127,7 @@ function Form() {
           <FormControl>
             <FormLabel>Logo</FormLabel>
             <Input type="file" accept="image/*" onChange={handleImageUpload('logo')} />
-            {logo && <Image src={URL.createObjectURL(logo)} alt="Project Logo" boxSize="100px" mt={2} />}
+            {logo && <Image src={logo.preview || undefined} alt="Project Logo" boxSize="100px" mt={2}/>}
           </FormControl>
           <FormControl>
             <FormLabel>Project Images</FormLabel>
@@ -134,7 +135,7 @@ function Form() {
             <Flex wrap="wrap">
               {projectImages.map((img, index) => (
                 <Box key={index} position="relative" m={2}>
-                  <Image src={URL.createObjectURL(img)} alt={`Project Image ${index + 1}`} boxSize="100px" />
+                  <Image key={index} src={img.preview} alt={`Project Image ${index + 1}`} boxSize="100px"/>
                   <IconButton
                     aria-label="Remove image"
                     icon={<SmallCloseIcon />}
@@ -148,11 +149,6 @@ function Form() {
                 </Box>
               ))}
             </Flex>
-          </FormControl>
-          <FormControl isInvalid={errors.email ? true : false}>
-            <FormLabel>Email</FormLabel>
-            <Input type="email" {...register("email", { required: "Email is required" })} />
-            <FormErrorMessage>{errors.email && typeof errors.email.message === 'string' ? errors.email.message : null}</FormErrorMessage>
           </FormControl>
           <FormControl>
             <FormLabel>Owner Address</FormLabel>
