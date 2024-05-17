@@ -12,8 +12,8 @@ const isDev = process.env.NODE_ENV !== 'production'
 const ENABLE_CSP_HEADER = true;
 const FRAME_SRC_HOSTS = ['https://*.walletconnect.com', 'https://*.walletconnect.org','https://*.solflare.com','https://auth.particle.network/'];
 const STYLE_SRC_HOSTS = ['https://*.googleapis.com']
-const IMG_SRC_HOSTS = ['https://*.walletconnect.com'];
-const FONT_SRC_HOSTS = ['https://fonts.gstatic.com'];
+const IMG_SRC_HOSTS = ['https://*.walletconnect.com', 'http://34.82.234.85:8000'];
+const FONT_SRC_HOSTS = ['https://fonts.gstatic.com', 'https://fonts.googleapis.com/css'];
 
 const cspHeader = `
   default-src 'self';

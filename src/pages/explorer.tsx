@@ -1,6 +1,7 @@
-import { Box, Image, Link, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Icon, Image, Input, Link, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
+import { FaGithub, FaTelegramPlane, FaTwitter } from 'react-icons/fa';
 import { fetchProfileList, fetchProjectList } from './api';
 
 type Project = {
@@ -65,37 +66,38 @@ const ExplorerPage: NextPage = () => {
   return (
     <Box p={5}>
       <Tabs variant="soft-rounded" colorScheme="blue" onChange={(index) => setActiveTab(index === 0 ? 'projects' : 'users')}>
-        <TabList>
-          <Tab>Projects</Tab>
-          <Tab>Users</Tab>
-        </TabList>
+        <Flex alignItems="center" mb={4}>
+          <Text fontSize="3xl" fontWeight="bold">Explore</Text>
+          <div className='ml-5'>
+            <TabList>
+              <Tab>Projects</Tab>
+              <Tab>Creators</Tab>
+            </TabList>
+          </div>
+        </Flex>
+        <Text fontSize="md" color="gray.600" mb={4}>
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        </Text>
+        
+        <Flex my={4} alignItems="center">
+          <Input placeholder="Explore your favorite ..." mr={2} />
+          <Button colorScheme="blackAlpha">Search</Button>
+        </Flex>
 
         <TabPanels>
           <TabPanel>
             {loading ? (
               <Text>Loading...</Text>
             ) : (
-              <SimpleGrid columns={[1, 2, 3]} spacing="20px">
+              <SimpleGrid columns={[1, 2, 3, 4]} spacing="20px">
                 {projects.map((project, index) => (
                   <Link href={`/project/${project.id}`} key={index}>
-                    <Box borderWidth="1px" borderRadius="lg" overflow="hidden">
-                      <Image src={project.logo_img} alt={project.project_name} />
-                      <Box p="6">
-                        <Box display="flex" alignItems="baseline">
-                          <Text fontSize="xl" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
-                            {project.project_name}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Text fontSize="sm" color="gray.500">
-                            {project.tag_line}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Text fontSize="sm" color="gray.500">
-                            Created at: {project.elapsed_time}
-                          </Text>
-                        </Box>
+                    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" bg="white">
+                      <img src={project.logo_img} alt={project.project_name} />
+                      <Box p="4">
+                        <Text fontSize="lg" fontWeight="bold" mb={2}>{project.project_name}</Text>
+                        <Text fontSize="md" mb={2}>{project.tag_line}</Text>
+                        <Text fontSize="sm" color="gray.500">{project.elapsed_time}</Text>
                       </Box>
                     </Box>
                   </Link>
@@ -111,34 +113,22 @@ const ExplorerPage: NextPage = () => {
               <SimpleGrid columns={[1, 2, 3]} spacing="20px">
                 {users.map((user, index) => (
                   <Link href={`/user/${user.address}`} key={index}>
-                    <Box key={index} borderWidth="1px" borderRadius="lg" overflow="hidden">
-                      <Image src={user.profile_img} alt={user.name} />
-                      <Box p="6">
-                        <Box display="flex" alignItems="baseline">
-                          <Text fontSize="xl" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
-                            {user.name}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Text fontSize="sm" color="gray.500">
-                            Joined at: {user.elapsed_time}
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Text fontSize="sm" color="gray.500">
-                            GitHub: <Link href={user.link.github} color="blue.500" isExternal>{user.link.github}</Link>
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Text fontSize="sm" color="gray.500">
-                            Telegram: <Link href={user.link.telegram} color="blue.500" isExternal>{user.link.telegram}</Link>
-                          </Text>
-                        </Box>
-                        <Box>
-                          <Text fontSize="sm" color="gray.500">
-                            X: <Link href={user.link.x} color="blue.500" isExternal>{user.link.x}</Link>
-                          </Text>
-                        </Box>
+                    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" bg="white" textAlign="center" p={6}>
+                      <Image src={user.profile_img} alt={user.name} borderRadius="full" boxSize="100px" mx="auto" />
+                      <Box mt={4}>
+                        <Text fontSize="xl" fontWeight="bold">{user.name}</Text>
+                        <Text fontSize="sm" color="gray.500" mb={4}>Web Developer</Text>
+                        <Flex justifyContent="center" mt={4}>
+                          <Link href={user.link.x} isExternal mx={2}>
+                            <Icon as={FaTwitter} boxSize={6} />
+                          </Link>
+                          <Link href={user.link.github} isExternal mx={2}>
+                            <Icon as={FaGithub} boxSize={6} />
+                          </Link>
+                          <Link href={user.link.telegram} isExternal mx={2}>
+                            <Icon as={FaTelegramPlane} boxSize={6} />
+                          </Link>
+                        </Flex>
                       </Box>
                     </Box>
                   </Link>

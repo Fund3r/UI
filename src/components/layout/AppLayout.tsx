@@ -16,7 +16,7 @@ export function AppLayout({ children }: PropsWithChildren) {
       <div
         style={styles.container}
         id="app-content"
-        className="relative flex flex-col justify-between h-full min-h-screen w-full min-w-screen bg-blue-500"
+        className="relative flex flex-col justify-between h-full min-h-screen w-full min-w-screen bg-background"
       >
         <Header />
         <div className="sm:px-4 mx-auto grow flex items-center max-w-screen-xl">
