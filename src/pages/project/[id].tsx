@@ -1,7 +1,9 @@
 import { Box, Button, Icon, Image, Link, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
+import { useState } from 'react';
 import { FaDiscord, FaGithub, FaGlobe, FaTelegramPlane, FaTwitter } from 'react-icons/fa';
+import { TransferTokenCard } from '../../features/transfer/TransferTokenCard';
 
 type ProjectDetailProps = {
   project: {
@@ -29,6 +31,12 @@ type ProjectDetailProps = {
 };
 
 const ProjectDetail = ({ project }: ProjectDetailProps) => {
+  const [showTransferTokenCard, setShowTransferTokenCard] = useState(false);
+
+  const toggleTransferTokenCard = () => {
+    setShowTransferTokenCard(!showTransferTokenCard);
+  };
+
   return (
     <Box p={5}>
       <Box display="flex" alignItems="center" mb={6}>
@@ -38,7 +46,9 @@ const ProjectDetail = ({ project }: ProjectDetailProps) => {
           <Text fontSize="lg" color="gray.500" mt={2}>{project.tag_line}</Text>
           <Text mt={4}>{project.description}</Text>
           <Box mt={4}>
-            <Button bg="black" color="white" _hover={{ bg: 'green' }} mr={2}>Sponsor Me</Button>
+            <Button onClick={toggleTransferTokenCard} bg="black" color="white" _hover={{ bg: 'green' }} mr={2}>
+              Sponsor Me
+            </Button>
             <Link href={project.link.x} isExternal mx={2}>
               <Icon as={FaTwitter} boxSize={6} />
             </Link>
@@ -57,42 +67,23 @@ const ProjectDetail = ({ project }: ProjectDetailProps) => {
           </Box>
         </Box>
       </Box>
+
+      {showTransferTokenCard && <TransferTokenCard ownerAddress={project.owner.address} />}
       
       <Tabs variant="enclosed">
         <TabList>
           <Tab>Description</Tab>
-          {/* <Tab>Rewards</Tab> */}
           <Tab>Sponsor List</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
             <Text>{project.description}</Text>
           </TabPanel>
-          {/* <TabPanel>
-            <Text>Rewards content goes here...</Text>
-          </TabPanel> */}
           <TabPanel>
             <Text>Sponsor List content goes here...</Text>
-            {/* <Image src={project.project_img}></Image> */}
           </TabPanel>
         </TabPanels>
       </Tabs>
-
-      {/* <Box mt={8}>
-        <Text fontWeight="bold" fontSize="xl" mb={2}>Owner</Text>
-        <Flex alignItems="center">
-          <Image src={project.owner.profile_img} alt={project.owner.name} borderRadius="full" boxSize="50px" />
-          <Box ml={4}>
-            <Text fontSize="lg" fontWeight="bold">{project.owner.name}</Text>
-            <Text fontSize="sm" color="gray.500">{project.owner.email}</Text>
-          </Box>
-        </Flex>
-      </Box>
-
-      <Box mt={4}>
-        <Text fontWeight="bold">Elapsed Time:</Text>
-        <Text>{project.elapsed_time}</Text>
-      </Box> */}
     </Box>
   );
 };

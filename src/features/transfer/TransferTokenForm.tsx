@@ -26,20 +26,27 @@ import { useIsApproveRequired } from '../tokens/approval';
 import { useDestinationBalance, useOriginBalance } from '../tokens/balances';
 import {
   getAccountAddressAndPubKey,
-  useAccountAddressForChain,
-  useAccounts,
+  useAccounts
 } from '../wallet/hooks/multiProtocol';
 import { AccountInfo } from '../wallet/hooks/types';
 
+import { useAccountAddressForChain } from '../wallet/hooks/multiProtocol';
 import { useFetchMaxAmount } from './maxAmount';
 import { TransferFormValues } from './types';
 import { useRecipientBalanceWatcher } from './useBalanceWatcher';
 import { useFeeQuotes } from './useFeeQuotes';
 import { useTokenTransfer } from './useTokenTransfer';
 
-export function TransferTokenForm() {
+import { useAccount } from 'wagmi';
+
+type TransferTokenFormProps = {
+  ownerAddress: string;
+};
+
+export function TransferTokenForm({ ownerAddress }: TransferTokenFormProps) {
   const initialValues = useFormInitialValues();
   const { accounts } = useAccounts();
+  const { address } = useAccount();
 
   // Flag for if form is in input vs review mode
   const [isReview, setIsReview] = useState(false);
@@ -68,13 +75,14 @@ export function TransferTokenForm() {
             <TokenSection setIsNft={setIsNft} isReview={isReview} />
             <AmountSection isNft={isNft} isReview={isReview} />
           </div>
-          <RecipientSection isReview={isReview} />
+          <RecipientSection isReview={isReview} ownerAddress={ownerAddress} />
           <ReviewDetails visible={isReview} />
           <ButtonSection
             isReview={isReview}
             isValidating={isValidating}
             setIsReview={setIsReview}
           />
+          <div>{ownerAddress}</div>
         </Form>
       )}
     </Formik>
@@ -109,6 +117,8 @@ function SwapChainsButton({ disabled }: { disabled?: boolean }) {
 
 function ChainSelectSection({ isReview }: { isReview: boolean }) {
   const chains = useMemo(() => getWarpCore().getTokenChains(), []);
+
+  console.log('chains', chains[2]) // return ['raspberry', 'bubs', 'fundm3conduit']
 
   return (
     <div className="flex items-center justify-center space-x-7 sm:space-x-10">
@@ -174,7 +184,7 @@ function AmountSection({ isNft, isReview }: { isNft: boolean; isReview: boolean 
   );
 }
 
-function RecipientSection({ isReview }: { isReview: boolean }) {
+function RecipientSection({ isReview, ownerAddress }: { isReview: boolean; ownerAddress: string }) {
   const { values } = useFormikContext<TransferFormValues>();
   const { balance } = useDestinationBalance(values);
   useRecipientBalanceWatcher(values.recipient, balance);
@@ -193,6 +203,7 @@ function RecipientSection({ isReview }: { isReview: boolean }) {
           placeholder="0x123456..."
           classes="w-full"
           disabled={isReview}
+          // value={"0x57407C7c88adB0Ff1050269Ce1F331189FB1bf82"}
         />
         <SelfButton disabled={isReview} />
       </div>
@@ -236,7 +247,7 @@ function ButtonSection({
     return (
       <ConnectAwareSubmitButton
         chainName={values.origin}
-        text={isValidating ? 'Validating...' : 'Continue'}
+        text={isValidating ? 'Validating...' : 'Confirm'}
         classes="mt-4 px-3 py-1.5"
       />
     );

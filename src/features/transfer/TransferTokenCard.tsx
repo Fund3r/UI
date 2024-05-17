@@ -5,7 +5,11 @@ import { Color } from '../../styles/Color';
 
 import { TransferTokenForm } from './TransferTokenForm';
 
-export function TransferTokenCard() {
+type TransferTokenCardProps = {
+  ownerAddress: string;
+};
+
+export function TransferTokenCard({ ownerAddress }: TransferTokenCardProps) {
   return (
     <Card className="w-100 sm:w-[31rem]">
       <>
@@ -17,8 +21,9 @@ export function TransferTokenCard() {
             rounded={true}
             color={Color.primaryBlue}
           />
+          <div>{ownerAddress}</div>
         </div>
-        <TransferTokenForm />
+        <TransferTokenForm ownerAddress={ownerAddress} />
       </>
     </Card>
   );
