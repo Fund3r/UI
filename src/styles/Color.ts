@@ -10,6 +10,8 @@ export enum Color {
   primaryRed = '#BF1B15',
   primaryMint = '#31D99C',
   swamp = '#181A1A',
+  whiteSmoke = '#EFEFEF',
+  cmyk = '#757474',
 }
 
 // Useful for cases when using class names isn't convenient

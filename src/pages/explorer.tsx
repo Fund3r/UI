@@ -66,7 +66,7 @@ const ExplorerPage: NextPage = () => {
   return (
     <Box p={5}>
       <Tabs variant="soft-rounded" colorScheme="blue" onChange={(index) => setActiveTab(index === 0 ? 'projects' : 'users')}>
-        <Flex alignItems="center" mb={4}>
+        <Flex alignItems="center" mb={8}>
           <Text fontSize="3xl" fontWeight="bold">Explore</Text>
           <div className='ml-5'>
             <TabList>
@@ -75,24 +75,26 @@ const ExplorerPage: NextPage = () => {
             </TabList>
           </div>
         </Flex>
-        <Text fontSize="md" color="gray.600" mb={4}>
+        <Text fontSize="md" color="gray.600" className="mb-[70px]">
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
         </Text>
         
         <Flex my={4} alignItems="center">
-          <Input placeholder="Explore your favorite ..." mr={2} />
-          <Button colorScheme="blackAlpha">Search</Button>
+          <Input bg="whiteSmoke" placeholder="Explore your favorite ..." width="1068px" mr={10} />
+          <Button colorScheme="blackAlpha" className='ml-[auto]'>Search</Button>
         </Flex>
+
+        <div className="w-full flex justify-between items-center md:flex-row flex-col border-t-[4px] border-t-[black] mb-[46px]"></div>
 
         <TabPanels>
           <TabPanel>
             {loading ? (
               <Text>Loading...</Text>
             ) : (
-              <SimpleGrid columns={[1, 2, 3, 4]} spacing="20px">
+              <SimpleGrid columns={[1, 2, 3, 4]} spacing="27px">
                 {projects.map((project, index) => (
                   <Link href={`/project/${project.id}`} key={index}>
-                    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" bg="white">
+                    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" bg="white" className='mb-[100px]'>
                       <img src={project.logo_img} alt={project.project_name} />
                       <Box p="4">
                         <Text fontSize="lg" fontWeight="bold" mb={2}>{project.project_name}</Text>
