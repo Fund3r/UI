@@ -117,7 +117,7 @@ const ExplorerPage: NextPage = () => {
                       <Image src={user.profile_img} alt={user.name} borderRadius="full" boxSize="100px" mx="auto" />
                       <Box mt={4}>
                         <Text fontSize="xl" fontWeight="bold">{user.name}</Text>
-                        <Text fontSize="sm" color="gray.500" mb={4}>Web Developer</Text>
+                        {/* <Text fontSize="sm" color="gray.500" mb={4}>Web Developer</Text> */}
                         <Flex justifyContent="center" mt={4}>
                           <Link href={user.link.x} isExternal mx={2}>
                             <Icon as={FaTwitter} boxSize={6} />
