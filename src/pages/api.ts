@@ -44,7 +44,7 @@ export const createProject = async (formData: {
   email: string;
   address: string;
   x_url: string;
-  githubv: string;
+  github_url: string;
   telegram_url: string;
   website_url: string;
   discord_url: string;
