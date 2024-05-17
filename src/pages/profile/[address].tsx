@@ -23,31 +23,31 @@ export default function ProfilePage() {
   const { address } = useAccount();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [visible, setVisible] = useState(false);
   const [socialLinks, setSocialLinks] = useState({
     x: '',
     github: '',
     telegram: ''
   });
-  const [avatar, setAvatar] = useState('');
+  const [avatar, setAvatar] = useState({ file: null, preview: '' });
   const toast = useToast();
 
   useEffect(() => {
     const loadProfile = async () => {
       if (address) {
         try {
-          const data = await fetchProfileDetails(address);
-          setName(data.name);
-          setEmail(data.email);
-          setSocialLinks(data.link);
-          setAvatar(data.profile_img);
+          const response = await fetchProfileDetails(address);
+          setName(response.data.name);
+          setEmail(response.data.email);
+          setSocialLinks(response.data.link);
+          setAvatar(prev => ({ ...prev, preview: response.data.profile_img || '' }));
+          setVisible(response.data.visible)
         } catch (error) {
-          toast({
-            title: "Failed to load profile",
-            description: (error as Error).message,
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
+          setName('');
+          setEmail('');
+          setSocialLinks({ x: '', github: '', telegram: '' });
+          setAvatar({ file: null, preview: '' });
+          setVisible(false);
         }
       }
     };
@@ -65,7 +65,10 @@ export default function ProfilePage() {
       const reader = new FileReader();
       reader.onloadend = () => {
         if (reader.result) {
-          setAvatar(reader.result.toString());
+          setAvatar({
+            file: file,
+            preview: reader.result.toString()
+          });
         } else {
           toast({
             title: "Error loading image",
@@ -92,11 +95,12 @@ export default function ProfilePage() {
     const formData = {
       name,
       email,
-      address: address || '',
-      profile_img: avatar,
-      project_img: [],
-      visible: true,
-      link: socialLinks
+      address,
+      visible,
+      profile_img: avatar.file,
+      x_url: socialLinks.x,
+      github_url: socialLinks.github,
+      telegram_url: socialLinks.telegram,
     };
 
     try {
@@ -146,7 +150,7 @@ export default function ProfilePage() {
             <FormLabel>User Icon</FormLabel>
             <Stack direction={['column', 'row']} spacing={6}>
               <Center>
-                <Avatar size="xl" src={avatar || undefined}>
+                <Avatar size="xl" src={avatar.preview || undefined}>
                   <AvatarBadge
                     as={IconButton}
                     size="sm"
@@ -155,7 +159,7 @@ export default function ProfilePage() {
                     colorScheme="red"
                     aria-label="remove Image"
                     icon={<SmallCloseIcon />}
-                    onClick={() => setAvatar('')} // Allow user to remove avatar
+                    onClick={() => setAvatar({ file: null, preview: '' })} // Allow user to remove avatar
                   />
                 </Avatar>
               </Center>
@@ -164,14 +168,6 @@ export default function ProfilePage() {
                 <Input id="file-input" type={'file'} hidden accept="image/*" onChange={handleAvatarChange} />
               </Center>
             </Stack>
-          </FormControl>
-          <FormControl id="address">
-            <FormLabel>Address</FormLabel>
-            <Input
-              placeholder={address || 'No Address Available'}
-              _placeholder={{ color: 'gray.500' }}
-              disabled
-            />
           </FormControl>
           <FormControl id="name" isRequired>
             <FormLabel>User Name</FormLabel>
@@ -182,6 +178,14 @@ export default function ProfilePage() {
               _placeholder={{ color: 'gray.500' }}
             />
           </FormControl>
+          <FormControl id="address">
+            <FormLabel>Address</FormLabel>
+            <Input
+              placeholder={address || 'No Address Available'}
+              _placeholder={{ color: 'gray.500' }}
+              disabled
+            />
+          </FormControl>
           <FormControl id="email">
             <FormLabel>Email</FormLabel>
             <Input
@@ -189,6 +193,7 @@ export default function ProfilePage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your-email@example.com"
               _placeholder={{ color: 'gray.500' }}
+              disabled={email !== ''}
             />
           </FormControl>
           <FormControl id="link">
