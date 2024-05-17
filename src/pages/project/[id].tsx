@@ -19,7 +19,12 @@ type ProjectDetailProps = {
       website: string;
       discord: string;
     };
-    contribution_list: string[];
+    contribution_list: {
+      project_name: string;
+      project_logo: string;
+      amount: number;
+      elapsed_time: string;
+    }[];
     owner: {
       name: string;
       email: string;
@@ -36,6 +41,8 @@ const ProjectDetail = ({ project }: ProjectDetailProps) => {
   const toggleTransferTokenCard = () => {
     setShowTransferTokenCard(!showTransferTokenCard);
   };
+
+  console.log(project)
 
   return (
     <Box p={5}>

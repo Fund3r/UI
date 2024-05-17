@@ -19,21 +19,21 @@ export function Header() {
         <div className="flex flex-col items-end md:flex-row md:items-start gap-2">
           <WalletControlBar />
           {address && (
-              <Menu>
-                  <MenuButton>
-                    <Image src={profile} alt="Profile" />
-                  </MenuButton>
-                  <MenuList>
-                      <MenuGroup>
-                          <MenuItem>
-                              <Link as={NextLink} href={`/profile/${address}`}>My Profile</Link>
-                          </MenuItem>
-                          <MenuItem>
-                              <Link as={NextLink} href="/create">Create Project</Link>
-                          </MenuItem>
-                      </MenuGroup>
-                  </MenuList>
-              </Menu>
+            <Menu>
+                <MenuButton>
+                  <Image src={profile} alt="Profile" />
+                </MenuButton>
+                <MenuList sx={{ bg: 'white' }}>
+                    <MenuGroup>
+                        <MenuItem sx={{ bg: 'white' }}>
+                            <Link as={NextLink} href={`/profile/${address}`}>My Profile</Link>
+                        </MenuItem>
+                        <MenuItem sx={{ bg: 'white' }}>
+                            <Link as={NextLink} href="/create">Create Project</Link>
+                        </MenuItem>
+                    </MenuGroup>
+                </MenuList>
+            </Menu>
           )}
         </div>
       </div>

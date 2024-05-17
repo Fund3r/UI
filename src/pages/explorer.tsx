@@ -1,7 +1,6 @@
-import { Box, Button, Flex, Icon, Image, Input, Link, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Image, Input, Link, SimpleGrid, Tab, TabList, TabPanel, TabPanels, Tabs, Text } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import { FaGithub, FaTelegramPlane, FaTwitter } from 'react-icons/fa';
 import { fetchProfileList, fetchProjectList } from './api';
 
 type Project = {
@@ -64,35 +63,37 @@ const ExplorerPage: NextPage = () => {
   }
 
   return (
-    <Box p={5}>
+    <Box p={5} className="mt-[92px] mb-[32px]">
       <Tabs variant="soft-rounded" colorScheme="blue" onChange={(index) => setActiveTab(index === 0 ? 'projects' : 'users')}>
-        <Flex alignItems="center" mb={4}>
+        <Flex alignItems="center" mb={6}>
           <Text fontSize="3xl" fontWeight="bold">Explore</Text>
           <div className='ml-5'>
             <TabList>
-              <Tab>Projects</Tab>
-              <Tab>Creators</Tab>
+              <Tab sx={{ bg: 'yellow.400', color: 'black' ,_selected: { bg: 'black', color: 'white' } }} mr={3}>Projects</Tab>
+              <Tab sx={{ bg: 'yellow.400', color: 'black' ,_selected: { bg: 'black', color: 'white' } }}>Creators</Tab>
             </TabList>
           </div>
         </Flex>
-        <Text fontSize="md" color="gray.600" mb={4}>
+        <Text fontSize="md" color="gray.600" className="mb-[70px]">
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
         </Text>
         
         <Flex my={4} alignItems="center">
-          <Input placeholder="Explore your favorite ..." mr={2} />
-          <Button colorScheme="blackAlpha">Search</Button>
+          <Input bg="whiteSmoke" placeholder="Explore your favorite ..." mr={6} />
+          <Button _hover="yellow" backgroundColor="black" borderRadius="15px" color="white" className='ml-[auto]' width="108px">Search</Button>
         </Flex>
 
+        <div className="w-full flex justify-between items-center md:flex-row flex-col border-t-[4px] border-t-[black] mt-[30px] mb-[46px]"></div>
+
         <TabPanels>
-          <TabPanel>
+          <TabPanel sx={{ p: '0' }}>
             {loading ? (
               <Text>Loading...</Text>
             ) : (
-              <SimpleGrid columns={[1, 2, 3, 4]} spacing="20px">
+              <SimpleGrid columns={[1, 2, 3, 4]} spacing="27px" className='mb-[100px]'>
                 {projects.map((project, index) => (
                   <Link href={`/project/${project.id}`} key={index}>
-                    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" bg="white">
+                    <Box borderWidth="1px" borderRadius="lg" overflow="hidden" boxShadow="md" bg="white" p="0">
                       <img src={project.logo_img} alt={project.project_name} />
                       <Box p="4">
                         <Text fontSize="lg" fontWeight="bold" mb={2}>{project.project_name}</Text>
@@ -106,7 +107,7 @@ const ExplorerPage: NextPage = () => {
             )}
           </TabPanel>
 
-          <TabPanel>
+          <TabPanel sx={{ p: '0' }}>
             {loading ? (
               <Text>Loading...</Text>
             ) : (
@@ -119,14 +120,19 @@ const ExplorerPage: NextPage = () => {
                         <Text fontSize="xl" fontWeight="bold">{user.name}</Text>
                         {/* <Text fontSize="sm" color="gray.500" mb={4}>Web Developer</Text> */}
                         <Flex justifyContent="center" mt={4}>
-                          <Link href={user.link.x} isExternal mx={2}>
-                            <Icon as={FaTwitter} boxSize={6} />
+                          <Link mx={2}>
+                            <Text fontSize="xl" fontWeight="bold">122</Text>
+                            <Text fontSize="sm" color="gray.500" mb={4}>Sponsors</Text>
                           </Link>
+                          <span className="text-gray mx-[24px]">|</span>
                           <Link href={user.link.github} isExternal mx={2}>
-                            <Icon as={FaGithub} boxSize={6} />
+                            <Text fontSize="xl" fontWeight="bold">100</Text>
+                            <Text fontSize="sm" color="gray.500" mb={4}>Projects</Text>
                           </Link>
+                          <span className="text-gray mx-[24px]">|</span>
                           <Link href={user.link.telegram} isExternal mx={2}>
-                            <Icon as={FaTelegramPlane} boxSize={6} />
+                            <Text fontSize="xl" fontWeight="bold">80</Text>
+                            <Text fontSize="sm" color="gray.500" mb={4}>Ranking</Text>
                           </Link>
                         </Flex>
                       </Box>
