@@ -14,10 +14,11 @@ const FRAME_SRC_HOSTS = ['https://*.walletconnect.com', 'https://*.walletconnect
 const STYLE_SRC_HOSTS = ['https://*.googleapis.com']
 const IMG_SRC_HOSTS = ['https://*.walletconnect.com', 'http://34.82.234.85:8000'];
 const FONT_SRC_HOSTS = ['https://fonts.gstatic.com', 'https://fonts.googleapis.com/css'];
+const SCRIPT_SRC_HOSTS = ['https://va.vercel-scripts.com'];
 
 const cspHeader = `
   default-src 'self';
-  script-src 'self'${isDev ? " 'unsafe-eval'" : ''};
+  script-src 'self'${isDev ? " 'unsafe-eval'" : ''} ${SCRIPT_SRC_HOSTS.join(' ')};
   style-src 'self' 'unsafe-inline' ${STYLE_SRC_HOSTS.join(' ')};
   connect-src *;
   img-src 'self' blob: data: ${IMG_SRC_HOSTS.join(' ')};
