@@ -18,6 +18,8 @@ import {
 import { TransferContext, TransferFormValues, TransferStatus } from './types';
 import { tryGetMsgIdFromTransferReceipt } from './utils';
 
+import axios from "axios";
+
 export function useTokenTransfer(onDone?: () => void) {
   const { transfers, addTransfer, updateTransferStatus } = useStore((s) => ({
     transfers: s.transfers,
@@ -153,7 +155,25 @@ async function executeTransfer({
       logger.debug(`${description} transaction confirmed, hash:`, hash);
       toastTxSuccess(`${description} transaction sent!`, hash, origin);
       hashes.push(hash);
-    }
+
+      const postData = {
+        transaction_hash: hash,
+        token_address: originToken.addressOrDenom,
+        sender_address: sender,
+        receiver_address: recipient,
+        amount: weiAmountOrId,
+        origin_chain: origin,
+        destination_chain: destination,
+      };
+      
+      axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/contribution/record/`, postData)
+        .then(response => {
+          console.log('Transaction data saved successfully:', response.data);
+        })
+        .catch(error => {
+          console.error('Failed to save transaction data:', error);
+        });
+      }
 
     const msgId = txReceipt ? tryGetMsgIdFromTransferReceipt(origin, txReceipt) : undefined;
 
