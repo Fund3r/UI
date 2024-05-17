@@ -19,6 +19,7 @@ import { ProtocolType } from '@hyperlane-xyz/utils';
 import { ChainLogo } from '@hyperlane-xyz/widgets';
 
 import { Modal as Modals } from '../../components/layout/Modal';
+import { useUser } from '../../features/user/context/UserContext';
 import { login } from '../../pages/api';
 import { useConnectFns } from './hooks/multiProtocol';
 
@@ -118,12 +119,17 @@ function EmailLoginModal({ isOpen, close }: { isOpen: boolean; close: () => void
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { user, setUser } = useUser();
 
   const handleSubmit = async () => {
     try {
       setError('');
       const response = await login(email, password);
       console.log('Login successful:', response);
+      setUser({
+        address: response.data.address,
+        email: response.data.email
+      });
       close();
     } catch (err) {
       setError('Error');

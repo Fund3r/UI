@@ -17,10 +17,12 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useAccount } from 'wagmi';
+import { useUser } from '../../features/user/context/UserContext';
 import { fetchProfileDetails, updateProfile } from '../api';
 
 export default function ProfilePage() {
-  const { address } = useAccount();
+  const { address: walletAddress } = useAccount();
+  const { user } = useUser();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [visible, setVisible] = useState(false);
@@ -31,6 +33,7 @@ export default function ProfilePage() {
   });
   const [avatar, setAvatar] = useState({ file: null, preview: '' });
   const toast = useToast();
+  const address = walletAddress || user?.address;
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -40,11 +43,16 @@ export default function ProfilePage() {
           setName(response.data.name);
           setEmail(response.data.email);
           setSocialLinks(response.data.link);
-          setAvatar(prev => ({ ...prev, preview: response.data.profile_img || '' }));
+          console.log('response.data.profile_img', response.data.profile_img)
+          setAvatar(prev => ({
+            ...prev,
+            file: response.data.profile_img || '',
+            preview: response.data.profile_img ? response.data.profile_img.toString() : ''
+          }));
           setVisible(response.data.visible)
         } catch (error) {
           setName('');
-          setEmail('');
+          setEmail(user?.email || '');
           setSocialLinks({ x: '', github: '', telegram: '' });
           setAvatar({ file: null, preview: '' });
           setVisible(false);

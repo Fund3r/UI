@@ -17,14 +17,19 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useAccount } from 'wagmi';
+import { useUser } from '../../features/user/context/UserContext';
 import { createProject } from '../../pages/api';
 
 function Form() {
+  const { address: walletAddress } = useAccount();
+  const { user } = useUser();
   const { handleSubmit, register, setValue, formState: { errors } } = useForm();
   const toast = useToast();
   const [logo, setLogo] = useState({ file: null, preview: '' });
   const [projectImages, setProjectImages] = useState([]);
   const MAX_FILE_SIZE = 5 * 1024 * 1024;
+  const address = walletAddress || user?.address;
 
   const onSubmit = async (data: any) => {
     try {
@@ -152,7 +157,7 @@ function Form() {
           </FormControl>
           <FormControl>
             <FormLabel>Owner Address</FormLabel>
-            <Input type="text" {...register("address")} />
+            <Input type="text" {...register("address")} defaultValue={address} disabled={!!address}/>
           </FormControl>
           <FormControl>
             <FormLabel>Social Links</FormLabel>
