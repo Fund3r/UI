@@ -27,6 +27,7 @@ export default function Document() {
         <meta name="apple-mobile-web-app-title" content={APP_NAME} />
         <meta name="apple-mobile-web-app-capable" content="yes" />
 
+        {/* Modify APP_URL & Logo once website is deployed */}
         <meta property="og:url" content={APP_URL} />
         <meta property="og:title" content={APP_NAME} />
         <meta property="og:type" content="website" />
